@@ -151,7 +151,5 @@ GO
 
 
 
-EXEC GetAllCategories
-
 
 
