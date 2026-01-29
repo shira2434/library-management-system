@@ -93,4 +93,11 @@ export class ApiService {
       parameters: {}
     });
   }
+
+  getCategories(): Observable<any[]> {
+    return this.http.post<any[]>(this.baseUrl, {
+      procedureName: 'GetAllCategories',
+      parameters: {}
+    });
+  }
 }

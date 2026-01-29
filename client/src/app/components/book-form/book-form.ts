@@ -16,6 +16,7 @@ export class BookForm implements OnInit {
   bookForm: FormGroup;
   statuses = signal<Status[]>([]);
   locations = signal<Location[]>([]);
+  categories = signal<string[]>([]);
   isEditMode = signal(false);
   bookId = signal<number | null>(null);
   
@@ -50,6 +51,9 @@ export class BookForm implements OnInit {
   loadDropdownData(): void {
     this.apiService.getStatuses().subscribe(statuses => this.statuses.set(statuses));
     this.apiService.getLocations().subscribe(locations => this.locations.set(locations));
+    this.apiService.getCategories().subscribe(categories => 
+      this.categories.set(categories.map(c => c.Category))
+    );
   }
 
   checkEditMode(): void {

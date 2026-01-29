@@ -45,7 +45,13 @@
           <tr>
             <td><strong>קטגוריה *</strong></td>
             <td>
-              <input type="text" formControlName="Category" class="form-control">
+              <input type="text" formControlName="Category" class="form-control" 
+                     list="categories-list" placeholder="בחר או הקלד קטגוריה">
+              <datalist id="categories-list">
+                @for (category of categories(); track category) {
+                  <option [value]="category">{{ category }}</option>
+                }
+              </datalist>
             </td>
           </tr>
           

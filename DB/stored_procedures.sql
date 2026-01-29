@@ -20,7 +20,7 @@ END
 GO
 
 -- קבלת כל הספרים
-CREATE PROCEDURE GetAllBooks
+ALTER PROCEDURE GetAllBooks
 AS
 BEGIN
     SELECT 
@@ -33,6 +33,7 @@ BEGIN
     ORDER BY b.Title
 END
 GO
+
 
 -- קבלת כל הסטטוסים
 CREATE PROCEDURE GetAllStatuses
@@ -74,7 +75,6 @@ BEGIN
 END
 GO
 
--- הוספת ספר חדש
 CREATE PROCEDURE AddBook
     @Title NVARCHAR(255), @Author NVARCHAR(255), @Category NVARCHAR(100),
     @Description NVARCHAR(999), @StatusId INT, @PublishYear INT,
@@ -84,8 +84,8 @@ BEGIN
     DECLARE @NewId INT
     SELECT @NewId = ISNULL(MAX(ID), 0) + 1 FROM Books
     
-    INSERT INTO Books (ID, Title, Author, Category, Description, StatusId, PublishYear, AvailableCopies, LocationId)
-    VALUES (@NewId, @Title, @Author, @Category, @Description, @StatusId, @PublishYear, @AvailableCopies, @LocationId)
+    INSERT INTO Books (ID, Title, Author, Category, Description, StatusId, PublishYear, AvailableCopies, LocationId, CreatedAt)
+    VALUES (@NewId, @Title, @Author, @Category, @Description, @StatusId, @PublishYear, @AvailableCopies, @LocationId, GETDATE())
     
     SELECT 
         b.ID, b.Title, b.Author, b.Category, b.Description,
@@ -96,7 +96,7 @@ BEGIN
     LEFT JOIN Locations l ON b.LocationId = l.ID
     WHERE b.ID = @NewId
 END
-GO
+
 
 -- עדכון ספר קיים  
 CREATE PROCEDURE UpdateBookById
@@ -138,3 +138,20 @@ BEGIN
     UPDATE Books SET StatusId = @NewStatusID WHERE ID = @BookID;
 END
 GO
+
+-- קבלת כל הקטגוריות
+CREATE PROCEDURE GetAllCategories
+AS
+BEGIN
+    SELECT DISTINCT Category FROM Books WHERE Category IS NOT NULL ORDER BY Category
+END
+GO
+
+
+
+
+
+EXEC GetAllCategories
+
+
+
