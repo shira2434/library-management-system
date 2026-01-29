@@ -1,0 +1,75 @@
+<div class="details-container">
+  @if (loading()) {
+    <div class="loading">טוען פרטי ספר...</div>
+  }
+  
+  @if (!loading() && book()) {
+    <div>
+      <div class="header">
+        <h2>פרטי ספר</h2>
+        <div class="actions">
+          <button (click)="onEdit()" class="btn-primary">עריכה</button>
+          <button (click)="onBack()" class="btn-secondary">חזרה</button>
+        </div>
+      </div>
+
+      <div class="book-details">
+        <table class="details-table">
+          <thead>
+            <tr>
+              <th>שדה</th>
+              <th>ערך</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>כותרת</strong></td>
+              <td class="detail-value">{{ book()!.Title }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>מחבר</strong></td>
+              <td class="detail-value">{{ book()!.Author }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>קטגוריה</strong></td>
+              <td class="detail-value">{{ book()!.Category }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>סטטוס</strong></td>
+              <td class="detail-value">{{ book()!.StatusName || 'לא זמין' }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>שנת הוצאה</strong></td>
+              <td class="detail-value">{{ book()!.PublishYear }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>עותקים זמינים</strong></td>
+              <td class="detail-value">{{ book()!.AvailableCopies }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>מיקום</strong></td>
+              <td class="detail-value">{{ book()!.LocationName || 'לא זמין' }}</td>
+            </tr>
+            
+            <tr>
+              <td><strong>תיאור</strong></td>
+              <td class="detail-value detail-description">{{ book()!.Description || 'אין תיאור' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !book()) {
+    <div class="error">
+      ספר לא נמצא
+    </div>
+  }
+</div>

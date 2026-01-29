@@ -1,0 +1,64 @@
+<div class="book-list-container">
+  <div class="header">
+    <h2>רשימת ספרים</h2>
+    <div class="actions">
+      <input 
+        type="text" 
+        [ngModel]="searchText()" 
+        (ngModelChange)="searchText.set($event); onSearch()" 
+        placeholder="חיפוש לפי שם או מחבר..."
+        class="search-input">
+      <button (click)="onAdd()" class="add-btn">הוספה</button>
+    </div>
+  </div>
+
+  @if (filteredBooks().length > 0) {
+    <table class="books-table">
+      <thead>
+        <tr>
+          <th>כותרת</th>
+          <th>מחבר</th>
+          <th>קטגוריה</th>
+          <th>סטטוס</th>
+          <th>שנת הוצאה</th>
+          <th>עותקים זמינים</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (book of filteredBooks(); track book.ID) {
+          <tr>
+            <td>{{ book.Title || 'לא זמין' }}</td>
+            <td>{{ book.Author || 'לא זמין' }}</td>
+            <td>{{ book.Category || 'לא זמין' }}</td>
+            <td>{{ book.StatusName || 'לא זמין' }}</td>
+            <td>{{ book.PublishYear || 'לא זמין' }}</td>
+            <td>{{ book.AvailableCopies || 0 }}</td>
+            <td class="actions-cell">
+              <button (click)="onView(book)" class="view-btn">צפייה</button>
+              <button (click)="onEdit(book)" class="edit-btn">עריכה</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (loading()) {
+    <div class="no-results">
+      טוען נתונים...
+    </div>
+  }
+
+  @if (!loading() && filteredBooks().length === 0 && books().length === 0) {
+    <div class="no-results">
+      לא נמצאו ספרים
+    </div>
+  }
+
+  @if (!loading() && filteredBooks().length === 0 && books().length > 0) {
+    <div class="no-results">
+      לא נמצאו תוצאות חיפוש
+    </div>
+  }
+</div>

@@ -1,0 +1,111 @@
+<div class="form-container">
+  <app-notification 
+    [show]="showNotification()" 
+    [message]="notificationMessage()" 
+    [type]="notificationType()"
+    (onClose)="onNotificationClose()">
+  </app-notification>
+  
+  <div class="form-card">
+    <h2>{{ isEditMode() ? 'עריכת ספר' : 'הוספת ספר חדש' }}</h2>
+    
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+      <table class="form-table">
+        <thead>
+          <tr>
+            <th>שדה</th>
+            <th>ערך</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>כותרת *</strong></td>
+            <td>
+              <input type="text" formControlName="Title" class="form-control">
+              @if (bookForm.get('Title')?.invalid && bookForm.get('Title')?.touched) {
+                <div class="error">
+                  כותרת חובה
+                </div>
+              }
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>מחבר *</strong></td>
+            <td>
+              <input type="text" formControlName="Author" class="form-control">
+              @if (bookForm.get('Author')?.invalid && bookForm.get('Author')?.touched) {
+                <div class="error">
+                  מחבר חובה
+                </div>
+              }
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>קטגוריה *</strong></td>
+            <td>
+              <input type="text" formControlName="Category" class="form-control">
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>תיאור</strong></td>
+            <td>
+              <textarea formControlName="Description" class="form-control" rows="3"></textarea>
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>שנת הוצאה *</strong></td>
+            <td>
+              <input type="number" formControlName="PublishYear" class="form-control">
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>עותקים זמינים *</strong></td>
+            <td>
+              <input type="number" formControlName="AvailableCopies" class="form-control">
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>סטטוס *</strong></td>
+            <td>
+              <select formControlName="StatusId" class="form-control">
+                <option value="">בחר סטטוס</option>
+                @for (status of statuses(); track status.ID) {
+                  <option [value]="status.ID">
+                    {{ status.Name }}
+                  </option>
+                }
+              </select>
+            </td>
+          </tr>
+          
+          <tr>
+            <td><strong>מיקום *</strong></td>
+            <td>
+              <select formControlName="LocationId" class="form-control">
+                <option value="">בחר מיקום</option>
+                @for (location of locations(); track location.ID) {
+                  <option [value]="location.ID">
+                    {{ location.LocationName }}
+                  </option>
+                }
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" [disabled]="bookForm.invalid" class="btn-primary" (click)="onSubmit()">
+      {{ isEditMode() ? 'עדכן' : 'הוסף' }}
+    </button>
+    <button type="button" (click)="onCancel()" class="btn-secondary">ביטול</button>
+  </div>
+</div>
